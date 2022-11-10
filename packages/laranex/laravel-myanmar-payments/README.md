@@ -33,7 +33,7 @@ use Laranex\LaravelMyanmarPayments\LaravelMyanmarPaymentsFacade;
 
 $paymentScreenUrl = LaravelMyanmarPaymentsFacade::channel('wave_money')->getPaymentScreenUrl($items, $orderId, $amount, $merchantReferenceId, $backendResultUrl);
 ```
-- For more api options for Wave Money, you can read the composition of the function [here](src/LaravelMyanmarPayments.php)
+- For more api options for Wave Money, you can read the composition of the function [here](src/WaveMoney.php)
 
 ### Changelog
 
