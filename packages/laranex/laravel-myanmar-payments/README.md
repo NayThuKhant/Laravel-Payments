@@ -1,10 +1,14 @@
 # Very short description of the package
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/laranex/laravel-myanmar-payments.svg?style=flat-square)](https://packagist.org/packages/laranex/laravel-myanmar-payments)
-[![Total Downloads](https://img.shields.io/packagist/dt/laranex/laravel-myanmar-payments.svg?style=flat-square)](https://packagist.org/packages/laranex/laravel-myanmar-payments)
-![GitHub Actions](https://github.com/laranex/laravel-myanmar-payments/actions/workflows/main.yml/badge.svg)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/Laranex/laravel-myanmar-payments.svg?style=flat-square)](https://packagist.org/packages/Laranex/laravel-myanmar-payments)
+[![Total Downloads](https://img.shields.io/packagist/dt/Laranex/laravel-myanmar-payments.svg?style=flat-square)](https://packagist.org/packages/Laranex/laravel-myanmar-payments)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+A Laravel Package to deal with Payment Packages from Myanmar. This package can take care of redirect communications.
+
+Supported Payments are as follows.
+
+- Wave Money
+- 2C2P
 
 ## Installation
 
@@ -14,17 +18,22 @@ You can install the package via composer:
 composer require laranex/laravel-myanmar-payments
 ```
 
-## Usage
-
-```php
-// Usage description here
-```
-
-### Testing
+## Configuration
 
 ```bash
-composer test
+  php artisan vendor:publish --tag="laravel-myanmar-payments"
 ```
+
+[Wave Money Configuration](https://github.com/DigitalMoneyMyanmar/wppg-documentation#23-environment)
+
+## Usage (Wave Money Payment Screen)
+
+```php
+use Laranex\LaravelMyanmarPayments\LaravelMyanmarPaymentsFacade;
+
+$paymentScreenUrl = LaravelMyanmarPaymentsFacade::channel('wave_money')->getPaymentScreenUrl($items, $orderId, $amount, $merchantReferenceId, $backendResultUrl);
+```
+- For more api options for Wave Money, you can read the composition of the function [here](src/LaravelMyanmarPayments.php)
 
 ### Changelog
 
@@ -40,13 +49,9 @@ If you discover any security related issues, please email naythukhant644@gmail.c
 
 ## Credits
 
--   [Nay Thu Khant](https://github.com/laranex)
--   [All Contributors](../../contributors)
+- [Nay Thu Khant](https://github.com/naythukhant)
+- [All Contributors](../../contributors)
 
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
-
-## Laravel Package Boilerplate
-
-This package was generated using the [Laravel Package Boilerplate](https://laravelpackageboilerplate.com).

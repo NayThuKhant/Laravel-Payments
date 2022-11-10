@@ -7,31 +7,29 @@ use Illuminate\Support\Facades\Http;
 
 class WaveMoney
 {
-
     /**
      * @throws Exception
      */
     public function getPaymentScreenUrl(array $items, string $orderId, int $amount, string $merchantReferenceId, string $backendResultUrl, string $frontendResultUrl = "", string $paymentDescription = ""): string
-    {                
-        $timeToLiveInSeconds = 300;
-        $merchantName = "Pun Hlaing";
-        $merchantId = "punhlainghospitalswmmerchant";
-        $secretKey = "772dba7e663e70c6bd746a951f88c11460773e656846b9af1d2840c7a2722859";
-        $baseUrl = "https://testpayments.wavemoney.io:8107";
-        $frontendResultUrl = $frontendResultUrl ? $frontendResultUrl : config("app.url");
-        $paymentDescription = $paymentDescription ?$paymentDescription : "Payment for " . config('app.name');
+    {
+        $waveMoneyConfig = config("laravel-myanmar-payments.wave_money");
+        $baseUrl = $waveMoneyConfig["base_url"];
+        $timeToLiveInSeconds = $waveMoneyConfig["time_to_live_in_seconds"];
 
+        $merchantName = $waveMoneyConfig["merchant_name"];
+        $merchantId = $waveMoneyConfig["merchant_id"];
+        $secretKey = $waveMoneyConfig["secret_key"];
+
+        $frontendResultUrl = $frontendResultUrl ?: config("app.url");
+        $paymentDescription = $paymentDescription ?: "Payment for ". config("app.name");
 
         $this->validateData($items, $amount, $backendResultUrl, $secretKey, $merchantId);
 
         $items = json_encode($items);
         $hash = hash_hmac("sha256", implode("", [$timeToLiveInSeconds, $merchantId, $orderId, $amount, $backendResultUrl, $merchantReferenceId]), $secretKey);
 
-
-       // dd($timeToLiveInSeconds, $merchantId, $orderId, $merchantReferenceId, $frontendResultUrl, $backendResultUrl, $amount, $paymentDescription, $merchantName, $items, $hash);
-
         $response = Http::acceptJson()->withOptions(["verify" => false, "http_errors" => false])
-            ->post($baseUrl, [
+            ->post("$baseUrl/payment", [
                 "time_to_live_in_seconds" => $timeToLiveInSeconds,
                 "merchant_id" => $merchantId,
                 "order_id" => $orderId,
@@ -48,7 +46,7 @@ class WaveMoney
 
         if ($response->successful()) {
             $transactionId = $response->json()["transaction_id"];
-            return "$baseUrl/transaction_id=$transactionId";
+            return "$baseUrl/authenticate?transaction_id=$transactionId";
         }
 
         throw new Exception("Something went wrong in requesting payment screen for Wave Money");
@@ -80,13 +78,10 @@ class WaveMoney
          *   ]
          */
         foreach ($items as $item) {
-  
-           info(!array_key_exists("name", $item));
-           info(!array_key_exists("amount", $item)); 
-           info(!is_string($item["name"])); info(!is_integer($item["amount"])); 
-           
-           
 
+           info(!array_key_exists("name", $item));
+           info(!array_key_exists("amount", $item));
+           info(!is_string($item["name"])); info(!is_integer($item["amount"]));
 
             if (!array_key_exists("name", $item) || !array_key_exists("amount", $item) || !is_string($item["name"]) || !is_integer($item["amount"])) {
                 throw new Exception("Invalid items structure");

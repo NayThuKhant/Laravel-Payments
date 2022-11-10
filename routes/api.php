@@ -15,5 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/backend-url', function(Request $request) {
-    Log::info(json_decode($request));
+    Log::info("here it is");
+    Log::info($request);
 })->name('backend');

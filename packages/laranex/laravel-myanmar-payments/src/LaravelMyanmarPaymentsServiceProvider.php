@@ -14,11 +14,7 @@ class LaravelMyanmarPaymentsServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__ . '/../config/config.php' => config_path('laravel-myanmar-payments.php'),
-            ], 'config');
-
-            $this->publishes([
-                __DIR__ . '/../config/config.php' => config_path('laravel-myanmar-nrc.php'),
-            ], 'laravel-myanmar-nrc');
+            ], 'laravel-myanmar-payments');
         }
     }
 
