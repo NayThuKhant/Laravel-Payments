@@ -25,15 +25,26 @@ composer require laranex/laravel-myanmar-payments
 ```
 
 [Wave Money Configuration](https://github.com/DigitalMoneyMyanmar/wppg-documentation#23-environment)
+[2c2P Configuration](https://developer.2c2p.com/docs/redirect-api-integrate-with-payment)
 
 ## Usage (Wave Money Payment Screen)
 
 ```php
 use Laranex\LaravelMyanmarPayments\LaravelMyanmarPaymentsFacade;
 
-$paymentScreenUrl = LaravelMyanmarPaymentsFacade::channel('wave_money')->getPaymentScreenUrl($items, $orderId, $amount, $merchantReferenceId, $backendResultUrl);
+LaravelMyanmarPaymentsFacade::channel('wave_money')
+        ->getPaymentScreenUrl($items, $orderId, $amount, $merchantReferenceId, $backendResultUrl, $frontendResultUrl, $paymentDescription);
+LaravelMyanmarPaymentsFacade::channel('2c2p')
+        ->getPaymentScreenUrl($orderId, $amount, $noneStr, $backendResultUrl,$currencyCode, $frontendResultUrl, $paymentDescription)
+
+/*
+ * $frontendResultUrl & $paymentDescription are optional and the rest are mandatory.
+ */
 ```
-- For more api options for Wave Money, you can read the composition of the function [here](src/WaveMoney.php)
+
+For more api options, you can read the composition of the
+- Wave Money function [here](src/WaveMoney.php)
+- 2c2P [here](src/TwoCTwoP.php)
 
 ### Changelog
 
@@ -50,7 +61,6 @@ If you discover any security related issues, please email naythukhant644@gmail.c
 ## Credits
 
 - [Nay Thu Khant](https://github.com/naythukhant)
-- [All Contributors](../../contributors)
 
 ## License
 
