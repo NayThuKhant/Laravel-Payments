@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/backend-url', function(Request $request) {
-    Log::info("here it is");
     Log::info($request);
 })->name('backend');
+Route::post('/2c2p/callback', function(Request $request) {
+    Log::info($request);
+})->name('2c2p.callback');

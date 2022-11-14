@@ -68,7 +68,7 @@ class WaveMoney
         }
 
         if (!count($items)) {
-            throw new Exception("Invalid items structuressss");
+            throw new Exception("Invalid items structure");
         }
 
         /**
@@ -78,11 +78,6 @@ class WaveMoney
          *   ]
          */
         foreach ($items as $item) {
-
-           info(!array_key_exists("name", $item));
-           info(!array_key_exists("amount", $item));
-           info(!is_string($item["name"])); info(!is_integer($item["amount"]));
-
             if (!array_key_exists("name", $item) || !array_key_exists("amount", $item) || !is_string($item["name"]) || !is_integer($item["amount"])) {
                 throw new Exception("Invalid items structure");
             }

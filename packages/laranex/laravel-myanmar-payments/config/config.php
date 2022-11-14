@@ -12,5 +12,11 @@ return [
         "merchant_name" => env("WAVE_MONEY_MERCHANT_NAME", env("APP_NAME", "LARAVEL")),
         "merchant_id" => env("WAVE_MONEY_MERCHANT_ID"),
         "secret_key" => env("WAVE_MONEY_SECRET_KEY")
+    ],
+    "2c2p" => [
+        "base_url" => env("2C2P_BASE_URL", "https://sandbox-pgw.2c2p.com/payment/4.1"),
+        "merchant_id" => env("2C2P_MERCHANT_ID"),
+        "secret_key" => env("2C2P_SECRET_KEY"),
+        "currency_code" => env("2C2P_CURRENCY_CODE"),
     ]
 ];
